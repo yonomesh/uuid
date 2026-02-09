@@ -53,6 +53,15 @@ func newDefaultGen() *gen {
 }
 
 func (g *gen) NewV4() (UUID, error) {
+	// https://datatracker.ietf.org/doc/html/rfc9562#name-uuid-version-7
+	//
+	// 	UUIDv4 {
+	//     entropy_hi(0..47),
+	//     version(48..51),
+	//     entropy_mid(52..63),
+	//     variant(64..65),
+	//     entropy_lo(66..127)
+	// }
 	u := UUID{}
 	if _, err := io.ReadFull(g.rand, u[:]); err != nil {
 		return NilUUID, err
